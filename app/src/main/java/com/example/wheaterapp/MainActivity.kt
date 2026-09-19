@@ -1,10 +1,14 @@
 package com.example.wheaterapp
 
+import android.app.Activity
 import android.content.Intent //-----
 import android.os.Bundle
+import androidx.compose.material3.Button
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -15,19 +19,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.wheaterapp.ui.theme.WheaterAppTheme
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val intent = Intent(this, LoginActivity::class.java)
-        startActivity(intent)
-        finish()
-
         enableEdgeToEdge()
         setContent {
             WheaterAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                    HomePage(
+                        //name = "Android",
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -37,17 +37,27 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun HomePage(modifier: Modifier = Modifier) {
+    val activity = LocalActivity.current as Activity
+    Column(modifier = modifier.fillMaxSize()) {
+        Text(text = "Bem-vindo, colega!")
+
+        Button(
+            onClick={
+                activity.finish()
+            }
+        ){
+            Text("Sair")
+
+        }
+
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun HomePagePreview() {
     WheaterAppTheme {
-        Greeting("Android")
+        HomePage()
     }
 }
