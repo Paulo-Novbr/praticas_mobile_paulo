@@ -1,5 +1,6 @@
 package com.example.wheaterapp
 
+import android.content.Intent //-----
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,6 +17,11 @@ import com.example.wheaterapp.ui.theme.WheaterAppTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
+
         enableEdgeToEdge()
         setContent {
             WheaterAppTheme {
