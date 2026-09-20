@@ -105,6 +105,15 @@ fun LoginPage(modifier: Modifier = Modifier) {
             ) {
                 Text("Limpar")
             }
+
+            Button(
+                onClick = {
+                    val intent = Intent(activity, RegisterActivity::class.java)
+                    activity.startActivity(intent)
+                }
+            ) {
+                Text("Cadastrar")
+            }
         }
     }
 }
