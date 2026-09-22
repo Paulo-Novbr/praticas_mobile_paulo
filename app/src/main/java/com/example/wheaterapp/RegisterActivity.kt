@@ -54,10 +54,10 @@ class RegisterActivity : ComponentActivity() {
 
 @Composable
 fun RegisterPage(modifier: Modifier = Modifier) {
-    var user_name by rememberSaveable { mutableStateOf("") }
-    var user_email by rememberSaveable { mutableStateOf("") }
-    var user_password by rememberSaveable { mutableStateOf("") }
-    var user_repeated_password by rememberSaveable { mutableStateOf("") }
+    var userName by rememberSaveable { mutableStateOf("") }
+    var userEmail by rememberSaveable { mutableStateOf("") }
+    var userPassword by rememberSaveable { mutableStateOf("") }
+    var userRepeatedPassword by rememberSaveable { mutableStateOf("") }
     val activity = LocalActivity.current as Activity
 
     Column(
@@ -68,29 +68,29 @@ fun RegisterPage(modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally
     ) {
         OutlinedTextField(
-            value = user_name,
-            onValueChange = {user_name = it},
+            value = userName,
+            onValueChange = {userName = it},
             label = { Text("Nome: ")},
             modifier = Modifier.fillMaxWidth()
         )
 
         OutlinedTextField(
-            value = user_email,
-            onValueChange = {user_email = it},
+            value = userEmail,
+            onValueChange = {userEmail = it},
             label = {Text("Email: ")},
             modifier = Modifier.fillMaxWidth()
         )
 
         OutlinedTextField(
-            value = user_password,
-            onValueChange = {user_password = it},
+            value = userPassword,
+            onValueChange = {userPassword = it},
             label = {Text("Senha: ")},
             modifier = Modifier.fillMaxWidth()
         )
 
         OutlinedTextField(
-            value = user_repeated_password,
-            onValueChange = {user_repeated_password = it},
+            value = userRepeatedPassword,
+            onValueChange = {userRepeatedPassword = it},
             label = {Text("Confirme a Senha: ")},
             modifier = Modifier.fillMaxWidth()
         )
@@ -99,10 +99,10 @@ fun RegisterPage(modifier: Modifier = Modifier) {
         ){
             Button(
                 onClick = {
-                    user_name = ""
-                    user_email = ""
-                    user_password = ""
-                    user_repeated_password = ""
+                    userName = ""
+                    userEmail = ""
+                    userPassword = ""
+                    userRepeatedPassword = ""
                 }
             ) {
                 Text("Limpar Fomrulário")
@@ -112,11 +112,11 @@ fun RegisterPage(modifier: Modifier = Modifier) {
                 onClick = {
                     Toast.makeText(activity, "Registrado com sucesso!",Toast.LENGTH_LONG).show()
                     activity.finish() },
-                enabled = user_email.isNotEmpty()
-                        && user_name.isNotEmpty()
-                        && user_password.isNotEmpty()
-                        && user_repeated_password.isNotEmpty()
-                        && user_password == user_repeated_password
+                enabled = userEmail.isNotEmpty()
+                        && userName.isNotEmpty()
+                        && userPassword.isNotEmpty()
+                        && userRepeatedPassword.isNotEmpty()
+                        && userPassword == userRepeatedPassword
             ) {
                 Text("Registrar")
             }
