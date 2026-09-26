@@ -35,11 +35,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.remember
 import androidx.activity.compose.LocalActivity
+import com.example.wheaterapp.MainViewModel
 
 @Composable
-fun ListPage(modifier: Modifier = Modifier.Companion) {
+fun ListPage(modifier: Modifier = Modifier.Companion, viewModel: MainViewModel) {
 
-    val cityList = remember {getCities().toMutableStateList()}
+
+    val cityList = viewModel.cities
     val activity = LocalActivity.current as Activity //isso está relacionado com os Toasts
     LazyColumn(
         modifier = modifier.fillMaxSize().padding(8.dp)
@@ -48,6 +50,7 @@ fun ListPage(modifier: Modifier = Modifier.Companion) {
             city -> CityItem(city = city, onClose = {
                 // to do
             Toast.makeText(activity, "Cidade dasmarcada", Toast.LENGTH_SHORT).show()
+            viewModel.remove(city)
         }, onClick = {
             // to do
             Toast.makeText(activity, "Cidade Favoritada", Toast.LENGTH_SHORT).show()
@@ -56,11 +59,6 @@ fun ListPage(modifier: Modifier = Modifier.Companion) {
     }
 }
 
-
-
-private fun getCities() = List(20){
-    i -> City(name= "Cidade $i", weather = "Carregando Clima...")
-}
 
 @Composable
 fun  CityItem(
