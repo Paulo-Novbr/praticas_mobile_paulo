@@ -35,6 +35,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 
 class RegisterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +70,20 @@ fun RegisterPage(modifier: Modifier = Modifier) {
             .fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
+
+
     ) {
+
+        Text (
+            text = "Cadastro",
+            fontWeight = FontWeight.Bold,
+            color = Color.Magenta,
+            modifier = modifier.align(CenterHorizontally),
+            textAlign = TextAlign.Center,
+            fontSize = 20.sp
+        )
+
+
         OutlinedTextField(
             value = userName,
             onValueChange = {userName = it},
@@ -84,6 +101,7 @@ fun RegisterPage(modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = userPassword,
             onValueChange = {userPassword = it},
+            visualTransformation = PasswordVisualTransformation(),
             label = {Text("Senha: ")},
             modifier = Modifier.fillMaxWidth()
         )
@@ -91,6 +109,7 @@ fun RegisterPage(modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = userRepeatedPassword,
             onValueChange = {userRepeatedPassword = it},
+            visualTransformation = PasswordVisualTransformation(),
             label = {Text("Confirme a Senha: ")},
             modifier = Modifier.fillMaxWidth()
         )
