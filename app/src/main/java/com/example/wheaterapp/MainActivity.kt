@@ -1,6 +1,9 @@
 package com.example.wheaterapp
 
+
 import android.os.Bundle
+import com.example.wheaterapp.ui.CityDialog
+import androidx.compose.runtime.*
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -36,8 +39,15 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val viewModel : MainViewModel by viewModels()
+            var showDialog by remember { mutableStateOf(false) }
             val navController = rememberNavController()
             WheaterAppTheme {
+                if (showDialog) CityDialog(
+                    onDismiss = { showDialog = false },
+                    onConfirm = { city ->
+                        if (city.isNotBlank()) viewModel.add(city)
+                        showDialog = false
+                    })
                 Scaffold(
                     topBar = {
                         TopAppBar(
@@ -62,8 +72,9 @@ class MainActivity : ComponentActivity() {
                         BottomNavBar(navController = navController, items)
                     },
                     floatingActionButton = {
-                        FloatingActionButton(onClick = { }) {
+                        FloatingActionButton(onClick = { showDialog = true}) {
                             Icon(Icons.Default.Add, contentDescription = "Adicionar")
+
                         }
                     }
                 ) { innerPadding ->
