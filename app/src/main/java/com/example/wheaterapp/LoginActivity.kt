@@ -87,7 +87,9 @@ fun LoginPage(modifier: Modifier = Modifier) {
             onValueChange = { password = it },
             visualTransformation = PasswordVisualTransformation()
         )
-        Row(modifier = modifier.padding(12.dp).fillMaxWidth()) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = modifier.padding(12.dp).fillMaxWidth()) {
             Button( onClick = {
                 Toast.makeText(activity, "Login OK!", Toast.LENGTH_LONG).show()
                 activity.startActivity(
@@ -97,7 +99,7 @@ fun LoginPage(modifier: Modifier = Modifier) {
                 Text("Login")
             }
 
-            Spacer(modifier = modifier.size(12.dp))
+            /* Spacer(modifier = modifier.size(12.dp)) */
 
             Button(
                 onClick = { email = ""; password = "" },

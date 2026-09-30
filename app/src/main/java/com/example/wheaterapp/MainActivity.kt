@@ -1,6 +1,7 @@
 package com.example.wheaterapp
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import com.example.wheaterapp.ui.CityDialog
 import androidx.compose.runtime.*
@@ -87,6 +88,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@SuppressLint("ViewModelConstructorInComposable")
 @Preview(showBackground = true)
 @Composable
 fun HomePagePreview() {

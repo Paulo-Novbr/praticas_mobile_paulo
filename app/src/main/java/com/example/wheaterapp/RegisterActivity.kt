@@ -68,8 +68,8 @@ fun RegisterPage(modifier: Modifier = Modifier) {
         modifier = modifier
             .padding(24.dp)
             .fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            verticalArrangement = Arrangement.spacedBy(16.dp) /* Arrangement.Center */,
+            horizontalAlignment = Alignment.CenterHorizontally,
 
 
     ) {
@@ -114,7 +114,8 @@ fun RegisterPage(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth()
         )
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
         ){
             Button(
                 onClick = {
@@ -124,12 +125,12 @@ fun RegisterPage(modifier: Modifier = Modifier) {
                     userRepeatedPassword = ""
                 }
             ) {
-                Text("Limpar Fomrulário")
+                Text("Limpar")
             }
 
             Button(
                 onClick = {
-                    Toast.makeText(activity, "Registrado com sucesso!",Toast.LENGTH_LONG).show()
+                    Toast.makeText(activity, "Cadastrado com sucesso!",Toast.LENGTH_LONG).show()
                     activity.finish() },
                 enabled = userEmail.isNotEmpty()
                         && userName.isNotEmpty()
@@ -137,7 +138,7 @@ fun RegisterPage(modifier: Modifier = Modifier) {
                         && userRepeatedPassword.isNotEmpty()
                         && userPassword == userRepeatedPassword
             ) {
-                Text("Registrar")
+                Text("Cadastrar")
             }
         }
     }
