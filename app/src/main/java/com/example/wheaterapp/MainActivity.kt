@@ -1,6 +1,9 @@
 package com.example.wheaterapp
 
-
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.navigation.NavDestination.Companion.hasRoute
 import android.annotation.SuppressLint
 import android.os.Bundle
 import com.example.wheaterapp.ui.CityDialog
@@ -31,6 +34,7 @@ import com.example.wheaterapp.ui.nav.BottomNavBar
 import com.example.wheaterapp.ui.nav.BottomNavItem
 import com.example.wheaterapp.ui.nav.MainNavHost
 import com.example.wheaterapp.ui.theme.WheaterAppTheme
+import com.example.wheaterapp.ui.nav.Route
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
@@ -39,9 +43,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+
             val viewModel : MainViewModel by viewModels()
             var showDialog by remember { mutableStateOf(false) }
             val navController = rememberNavController()
+
+            val currentRoute = navController.currentBackStackEntryAsState()
+            val showButton = currentRoute.value?.destination?.hasRoute(Route.List::class) == true
+            val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission(), onResult = {} )
+
             WheaterAppTheme {
                 if (showDialog) CityDialog(
                     onDismiss = { showDialog = false },
@@ -73,13 +83,15 @@ class MainActivity : ComponentActivity() {
                         BottomNavBar(navController = navController, items)
                     },
                     floatingActionButton = {
-                        FloatingActionButton(onClick = { showDialog = true}) {
-                            Icon(Icons.Default.Add, contentDescription = "Adicionar")
-
+                        if (showButton){
+                            FloatingActionButton(onClick = { showDialog = true}) {
+                                Icon(Icons.Default.Add, contentDescription = "Adicionar")
+                            }
                         }
                     }
                 ) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
+                        launcher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
                         MainNavHost(navController = navController, viewModel = viewModel)
                     }
                 }
