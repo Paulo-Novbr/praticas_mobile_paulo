@@ -34,6 +34,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.wheaterapp.ui.theme.WheaterAppTheme
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +61,9 @@ fun LoginPage(modifier: Modifier = Modifier) {
     val activity = LocalActivity.current as Activity
     Column(
         //modifier = modifier.fillMaxWidth(fraction = 0.9f),
-        modifier = modifier.padding(24.dp).fillMaxSize(),
+        modifier = modifier
+            .padding(24.dp)
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
 
@@ -89,13 +93,25 @@ fun LoginPage(modifier: Modifier = Modifier) {
         )
         Row(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = modifier.padding(12.dp).fillMaxWidth()) {
-            Button( onClick = {
-                Toast.makeText(activity, "Login OK!", Toast.LENGTH_LONG).show()
-                activity.startActivity(
-                    Intent(activity, MainActivity::class.java).setFlags(
-                        FLAG_ACTIVITY_SINGLE_TOP))
-            }, enabled = email.isNotEmpty() && password.isNotEmpty() ) {
+            modifier = modifier
+                .padding(12.dp)
+                .fillMaxWidth()
+        ) {
+            Button(onClick = {
+                Firebase.auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(activity) { task ->
+                        if (task.isSuccessful) {
+                            activity.startActivity(
+                                Intent(activity, MainActivity::class.java).setFlags(
+                                    FLAG_ACTIVITY_SINGLE_TOP
+                                )
+                            )
+                            Toast.makeText(activity, "Login OK!", Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(activity, "Login FALHOU!", Toast.LENGTH_LONG).show()
+                        }
+                    }
+            }, enabled = email.isNotEmpty() && password.isNotEmpty()) {
                 Text("Login")
             }
 

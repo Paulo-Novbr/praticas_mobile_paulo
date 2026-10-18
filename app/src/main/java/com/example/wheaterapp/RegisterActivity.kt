@@ -39,6 +39,8 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 class RegisterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,13 +70,13 @@ fun RegisterPage(modifier: Modifier = Modifier) {
         modifier = modifier
             .padding(24.dp)
             .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(16.dp) /* Arrangement.Center */,
-            horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(16.dp), /* Arrangement.Center */
+        horizontalAlignment = Alignment.CenterHorizontally,
 
 
-    ) {
+        ) {
 
-        Text (
+        Text(
             text = "Cadastro",
             fontWeight = FontWeight.Bold,
             color = Color.Magenta,
@@ -86,37 +88,37 @@ fun RegisterPage(modifier: Modifier = Modifier) {
 
         OutlinedTextField(
             value = userName,
-            onValueChange = {userName = it},
-            label = { Text("Nome: ")},
+            onValueChange = { userName = it },
+            label = { Text("Nome: ") },
             modifier = Modifier.fillMaxWidth()
         )
 
         OutlinedTextField(
             value = userEmail,
-            onValueChange = {userEmail = it},
-            label = {Text("Email: ")},
+            onValueChange = { userEmail = it },
+            label = { Text("Email: ") },
             modifier = Modifier.fillMaxWidth()
         )
 
         OutlinedTextField(
             value = userPassword,
-            onValueChange = {userPassword = it},
+            onValueChange = { userPassword = it },
             visualTransformation = PasswordVisualTransformation(),
-            label = {Text("Senha: ")},
+            label = { Text("Senha: ") },
             modifier = Modifier.fillMaxWidth()
         )
 
         OutlinedTextField(
             value = userRepeatedPassword,
-            onValueChange = {userRepeatedPassword = it},
+            onValueChange = { userRepeatedPassword = it },
             visualTransformation = PasswordVisualTransformation(),
-            label = {Text("Confirme a Senha: ")},
+            label = { Text("Confirme a Senha: ") },
             modifier = Modifier.fillMaxWidth()
         )
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
-        ){
+        ) {
             Button(
                 onClick = {
                     userName = ""
@@ -130,8 +132,26 @@ fun RegisterPage(modifier: Modifier = Modifier) {
 
             Button(
                 onClick = {
-                    Toast.makeText(activity, "Cadastrado com sucesso!",Toast.LENGTH_LONG).show()
-                    activity.finish() },
+                    Firebase.auth.createUserWithEmailAndPassword(
+                        userEmail,
+                        userPassword
+                    ).addOnCompleteListener(activity) { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(
+                                activity,
+                                "Registro OK!",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            activity.finish()
+                        } else {
+                            Toast.makeText(
+                                activity,
+                                "Registro FALHOU!",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                },
                 enabled = userEmail.isNotEmpty()
                         && userName.isNotEmpty()
                         && userPassword.isNotEmpty()

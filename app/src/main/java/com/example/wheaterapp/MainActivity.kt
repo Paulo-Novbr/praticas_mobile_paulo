@@ -13,7 +13,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
@@ -35,6 +34,8 @@ import com.example.wheaterapp.ui.nav.BottomNavItem
 import com.example.wheaterapp.ui.nav.MainNavHost
 import com.example.wheaterapp.ui.theme.WheaterAppTheme
 import com.example.wheaterapp.ui.nav.Route
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
@@ -64,7 +65,9 @@ class MainActivity : ComponentActivity() {
                         TopAppBar(
                             title = { Text("Bem-vindo/a!") },
                             actions = {
-                                IconButton( onClick = { finish() } ) {
+                                IconButton( onClick = {
+                                    Firebase.auth.signOut()
+                                    finish() } ) {
                                     Icon(
                                         imageVector =
                                             Icons.AutoMirrored.Filled.ExitToApp,
