@@ -95,7 +95,7 @@ fun LoginPage(modifier: Modifier = Modifier) {
                 activity.startActivity(
                     Intent(activity, MainActivity::class.java).setFlags(
                         FLAG_ACTIVITY_SINGLE_TOP))
-            } ) {
+            }, enabled = email.isNotEmpty() && password.isNotEmpty() ) {
                 Text("Login")
             }
 
@@ -113,6 +113,7 @@ fun LoginPage(modifier: Modifier = Modifier) {
                     val intent = Intent(activity, RegisterActivity::class.java)
                     activity.startActivity(intent)
                 }
+
             ) {
                 Text("Cadastrar")
             }
