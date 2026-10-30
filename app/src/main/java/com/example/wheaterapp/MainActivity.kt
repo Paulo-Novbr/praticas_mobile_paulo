@@ -36,6 +36,9 @@ import com.example.wheaterapp.ui.theme.WheaterAppTheme
 import com.example.wheaterapp.ui.nav.Route
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.wheaterapp.db.fb.FBDatabase
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
@@ -45,7 +48,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
 
-            val viewModel : MainViewModel by viewModels()
+            val fbDB = remember { FBDatabase() }
+            val viewModel : MainViewModel = viewModel(
+                factory = MainViewModelFactory(fbDB)
+            )
+
+            //val viewModel : MainViewModel by viewModels()
             val nomeUser = viewModel.user?.name ?: "Anon"
             var showDialog by remember { mutableStateOf(false) }
             val navController = rememberNavController()
@@ -103,6 +111,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+/**
 @SuppressLint("ViewModelConstructorInComposable")
 @Preview(showBackground = true)
 @Composable
@@ -111,3 +120,4 @@ fun HomePagePreview() {
         HomePage(viewModel = MainViewModel())
     }
 }
+ **/
