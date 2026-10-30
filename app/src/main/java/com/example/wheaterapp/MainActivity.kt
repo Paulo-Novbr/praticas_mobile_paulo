@@ -46,6 +46,7 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             val viewModel : MainViewModel by viewModels()
+            val nomeUser = viewModel.user?.name ?: "Anon"
             var showDialog by remember { mutableStateOf(false) }
             val navController = rememberNavController()
 
@@ -63,7 +64,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     topBar = {
                         TopAppBar(
-                            title = { Text("Bem-vindo/a!") },
+                            title = { Text("Bem-vindo/a  $nomeUser !") },
                             actions = {
                                 IconButton( onClick = {
                                     Firebase.auth.signOut()} ) {

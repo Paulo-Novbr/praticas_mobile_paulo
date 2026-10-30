@@ -39,6 +39,8 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import com.example.wheaterapp.db.fb.FBDatabase
+import com.example.wheaterapp.db.fb.FBUser
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 
@@ -142,6 +144,12 @@ fun RegisterPage(modifier: Modifier = Modifier) {
                                 "Registro OK!",
                                 Toast.LENGTH_LONG
                             ).show()
+
+                            val fbUser = FBUser()
+                            val fbDatabase = FBDatabase()
+                            fbUser.name = userName
+                            fbUser.email = userEmail
+                            fbDatabase.register(fbUser)
                             //activity.finish()
                         } else {
                             Toast.makeText(
