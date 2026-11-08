@@ -38,6 +38,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.wheaterapp.api.WeatherService
 import com.example.wheaterapp.db.fb.FBDatabase
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,8 +50,9 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             val fbDB = remember { FBDatabase() }
+            val weatherService = remember { WeatherService() }
             val viewModel : MainViewModel = viewModel(
-                factory = MainViewModelFactory(fbDB)
+                factory = MainViewModelFactory(fbDB, weatherService)
             )
 
             //val viewModel : MainViewModel by viewModels()
@@ -66,7 +68,7 @@ class MainActivity : ComponentActivity() {
                 if (showDialog) CityDialog(
                     onDismiss = { showDialog = false },
                     onConfirm = { city ->
-                        if (city.isNotBlank()) viewModel.add(city)
+                        if (city.isNotBlank()) viewModel.addCity(city)
                         showDialog = false
                     })
                 Scaffold(
