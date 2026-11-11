@@ -150,7 +150,6 @@ fun RegisterPage(modifier: Modifier = Modifier) {
                             fbUser.name = userName
                             fbUser.email = userEmail
                             fbDatabase.register(fbUser)
-
                             //FBDatabase().register(User(name, email).toFBUser())
                             //activity.finish()
                         } else {

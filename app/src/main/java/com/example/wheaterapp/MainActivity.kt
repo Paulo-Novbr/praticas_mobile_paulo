@@ -40,6 +40,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.wheaterapp.api.WeatherService
 import com.example.wheaterapp.db.fb.FBDatabase
+import com.example.wheaterapp.ui.CityDialogVM
+import com.example.wheaterapp.ui.CityDialogViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
@@ -53,6 +55,9 @@ class MainActivity : ComponentActivity() {
             val weatherService = remember { WeatherService() }
             val viewModel : MainViewModel = viewModel(
                 factory = MainViewModelFactory(fbDB, weatherService)
+            )
+            val cityDialogViewModel : CityDialogViewModel = viewModel(
+                factory = CityDialogVM(weatherService)
             )
 
             //val viewModel : MainViewModel by viewModels()
@@ -70,7 +75,8 @@ class MainActivity : ComponentActivity() {
                     onConfirm = { city ->
                         if (city.isNotBlank()) viewModel.addCity(city)
                         showDialog = false
-                    })
+                    },
+                    viewModel = cityDialogViewModel)
                 Scaffold(
                     topBar = {
                         TopAppBar(
@@ -97,7 +103,9 @@ class MainActivity : ComponentActivity() {
                     },
                     floatingActionButton = {
                         if (showButton){
-                            FloatingActionButton(onClick = { showDialog = true}) {
+                            FloatingActionButton(onClick = {
+                                cityDialogViewModel.query = ""
+                                showDialog = true}) {
                                 Icon(Icons.Default.Add, contentDescription = "Adicionar")
                             }
                         }

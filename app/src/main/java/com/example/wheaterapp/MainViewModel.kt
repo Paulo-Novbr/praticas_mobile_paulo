@@ -1,5 +1,6 @@
 package com.example.wheaterapp
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.wheaterapp.model.City
@@ -13,9 +14,11 @@ import com.example.wheaterapp.db.fb.toFBCity
 import androidx.lifecycle.ViewModelProvider
 import com.example.wheaterapp.api.WeatherService
 
+/**
 private fun getCities() = List(20){
         i -> City(name= "Cidade $i", weather = "Carregando Clima...")
 }
+**/
 
 class MainViewModel (private val db: FBDatabase, private val service : WeatherService) : ViewModel(), FBDatabase.Listener {
 
@@ -46,7 +49,7 @@ class MainViewModel (private val db: FBDatabase, private val service : WeatherSe
     }
 
 
-    private val _cities = getCities().toMutableStateList()
+    private val _cities =  mutableStateListOf<City>()   //getCities().toMutableStateList()
     private val _user = mutableStateOf<User?>(null)
 
     val user : User?
